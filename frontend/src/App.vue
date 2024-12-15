@@ -13,7 +13,7 @@ import { reactive,watchEffect,computed ,provide } from 'vue';
   
     watchEffect((onCleanup)=>{
         if(user.data){
-            const socketio = io("http://localhost:5000",{
+            const socketio = io("https://vue-chatapp.onrender.com",{
               query: {
                 userId: user.data._id,
               },
