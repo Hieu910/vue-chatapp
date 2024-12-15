@@ -13,10 +13,10 @@ const userStore = useUserStore()
   const router = useRouter()
   const logout = async () => {
        
-            loading.value = true
+         
             try {
                 let res = await axios.post("/api/auth/logout")
-
+                loading.value = true
             
             userStore.setUser(null)
             router.push("/")

@@ -1,26 +1,32 @@
         
 <script setup>
-     const props = defineProps({
-    messageData: {
-        type: Object,
-        default: null,
-    }
-    });
+import { computed } from "vue";
+import { useUserStore } from "../stores/user";
+import {useConversationStore } from "../stores/conversation"
+import { getHourMinute } from "./../utils/timeFormat.js"
+
+
+    const props = defineProps(['messageData'])
+    const { user, setUser } = useUserStore();
+    const { selectedConversation } = useConversationStore();
+    const isSender = props.messageData.senderId === user.data?._id
+    const profilePic = isSender ? user.data?.profilePic : selectedConversation.data?.profilePic;
+    
 </script>
 <template>
-    <div class="chat chat-start">
+    <div :class="[isSender ? 'chat-end' : 'chat-start','chat']">
         <div class="chat-image avatar">
             <div class="w-10 rounded-full">
             <img
                 alt="Tailwind CSS chat bubble component"
-                src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp" />
+                :src="profilePic" />
             </div>
         </div>
         <div class="chat-header">
-            Obi-Wan Kenobi
-            <time class="text-xs opacity-50">12:45</time>
+            {{}}
+            <time class="text-xs opacity-50">{{getHourMinute(props.messageData.createdAt)}}</time>
         </div>
-        <div class="chat-bubble">You were the Chosen One!</div>
+        <div :class="[isSender ? 'chat-bubble-info text-white' : '','chat-bubble']" >{{props.messageData.message}}</div>
         <div class="chat-footer opacity-50">Delivered</div>
     </div>
 </template>

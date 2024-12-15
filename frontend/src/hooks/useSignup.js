@@ -14,12 +14,12 @@ const useSignUp = () => {
   const signup = async ({fullName, username, password, confirmPassword,gender }) => {
         const success =  handleInput({fullName, username, password, confirmPassword,gender })
         if(success) {
-            loading.value = true
+            
             try {
                 let res = await axios.post("/api/auth/signup",{
                     fullName, username, password, confirmPassword,gender
                 })
-                
+                loading.value = true
                
                 
             if(res.error){

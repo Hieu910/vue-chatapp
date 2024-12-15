@@ -7,7 +7,6 @@ import useSendMessage from '../hooks/useSendMessage';
     const { loading , sendMessage } = useSendMessage()
 
     const handleSubmit =async (e)=>{
-        console.log(message.value)
         if(!message.value) return
         await sendMessage(message.value)
         message.value = ""

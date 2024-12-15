@@ -11,17 +11,21 @@ const useGetMessages = () => {
 
 const { messages, selectedConversation, setSelectedConversation , setMessages} = useConversationStore()
   const loading = ref(false)
-  watchEffect(async () => {
+  watchEffect(async (onCleanup) => {
+    let isActive = true
     const getMessages = async (message) => {
-
-        loading.value = true
+        
         try {
-            let res = await axios.get(`/api/message/${selectedConversation.data._id}`)
+        let res = await axios.get(`/api/message/${selectedConversation.data._id}`)
+        loading.value = true
+
         if(res.error){
             throw new Error(res.error)
         }
-        console.log(res)
-        setMessages( res.data )
+        if(isActive){
+            setMessages( res.data )
+         
+        }
        
         } catch (error) {
           
@@ -31,9 +35,13 @@ const { messages, selectedConversation, setSelectedConversation , setMessages} =
             loading.value = false
             
         }
-    
+        
     }
     if (selectedConversation.data?._id) getMessages();
+
+    onCleanup(()=>{
+        isActive = false
+    })
   })
 
  

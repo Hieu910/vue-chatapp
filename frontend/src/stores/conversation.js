@@ -7,8 +7,8 @@ export const useConversationStore = defineStore('conversation', () => {
 
   const selectedConversation = reactive({data:null}) 
   const messages = reactive({data:[]})
-
-    
+  const conversations = reactive({data:[]})
+  const filters = reactive({data:""})
   
   const setSelectedConversation =  (value) =>{
     selectedConversation.data = value    
@@ -18,5 +18,14 @@ export const useConversationStore = defineStore('conversation', () => {
     messages.data = value
   }
 
-  return { messages, selectedConversation , setSelectedConversation , setMessages }
+  const setConversations = (value) =>{ 
+    conversations.data = value
+  }
+
+  const setFilters = (value) =>{ 
+    filters.data = value.toLowerCase()
+  }
+  
+
+  return { messages,conversations, filters, selectedConversation , setSelectedConversation ,setConversations, setFilters,  setMessages }
 })

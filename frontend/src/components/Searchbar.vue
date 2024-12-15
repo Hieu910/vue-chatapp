@@ -1,10 +1,34 @@
 <script setup>
-        
+    import { ref } from "vue";
+import { useConversationStore } from "../stores/conversation";
+
+    const { conversations, setSelectedConversation, setFilters } = useConversationStore()
+
+    const searchText = ref("")
+    const createDebounce = () => {
+        let timeout = null;
+        return function (fnc, delayMs) {
+        clearTimeout(timeout);
+        timeout = setTimeout(() => {
+            fnc();
+        }, delayMs || 1000);
+        };
+    }
+    const debounce = createDebounce()
+    const onInput = (e)=>{
+     
+        searchText.value = e.target.value
+        debounce(()=>{
+          return setFilters(e.target.value.trim())
+        })
+       
+      
+    }
 </script>
 <template>
     <div class="p-1">
         <label class="input input-bordered flex rounded-full items-center gap-2 bg bg-gray-800">
-        <input type="text" class="grow text-gray-300" placeholder="Search" />
+        <input @input="onInput"  :value="searchText"  type="text" class="grow text-gray-300" placeholder="Search" />
         <svg
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 16 16"

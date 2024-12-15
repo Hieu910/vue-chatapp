@@ -14,12 +14,12 @@ const useSendMessage = () => {
 
   const sendMessage = async (message) => {
 
-            loading.value = true
+          
             try {
                 let res = await axios.post(`/api/message/send/${selectedConversation.data._id}`,{
                    message
                 })
-
+                loading.value = true
                 console.log(res)
             if(res.error){
                 throw new Error(res.error)
@@ -27,7 +27,6 @@ const useSendMessage = () => {
             setMessages([...messages.data, res.data])
            
             } catch (error) {
-                console.error(error)
                 Toast.error("error")
             }
             finally {
